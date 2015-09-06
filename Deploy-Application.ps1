@@ -116,7 +116,7 @@ Try {
 		[string]$installPhase = 'Pre-Installation'
 		
 		# Show installation prompt
-		 Show-InstallationPrompt -Title "Office Upgrade" -Message "You will be removing your existing Office isntallation and upgrading to Microsoft Office 365. Please click below to begin the installation." -ButtonMiddleText "OK" -Icon Exclamation -PersistPrompt -MinimizeWindows $true
+		 Show-InstallationPrompt -Title "Office Upgrade" -Message "You will be removing your existing Office installation and upgrading to Microsoft Office 365. Please click below to begin the installation." -ButtonMiddleText "OK" -Icon Exclamation -PersistPrompt -MinimizeWindows $true
 
 		# Show Welcome Message, close apps, prompt to save, check disk space
 		 Show-InstallationWelcome -CloseApps "iexplore,PWConsole,excel,groove,onenote,infopath,onenote,outlook,mspub,powerpnt,winword,communicator,lync" -PromptToSave -ForceCloseAppsCountdown 120 -BlockExecution -CheckDiskSpace
