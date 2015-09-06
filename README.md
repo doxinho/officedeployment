@@ -1,6 +1,6 @@
 # Office 365 Deployment & Removal
 
-Currently utilizing version 3.6.5 of the Powershell Application Deployment Toolkit.
+Currently utilizing version 3.6.5 of the [Powershell Application Deployment Toolkit](http://psappdeploytoolkit.com/).
 
 
 1. Edit Download.xml
@@ -21,8 +21,6 @@ Currently utilizing version 3.6.5 of the Powershell Application Deployment Toolk
   6. Dialog prompt that the installation is complete.
   7. Prompts user to restart, forces within 60 seconds
 
-5. 
-
-You can easily adjust this script to your desired needs. It is easy to run fully silently and to adjust the messages/prompts. The PSADT documentation is excellent. 
+You can easily adjust this script to your desired needs. It is easy to run fully silently and to adjust the messages/prompts. The [PSADT documentation](https://github.com/PSAppDeployToolkit/PSAppDeployToolkit/releases) is excellent. 
 
 Credit goes to the sample scripts and #sysadmin on irc.synirc.net for assisting with the development of this script.
