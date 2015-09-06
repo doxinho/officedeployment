@@ -1,0 +1,1 @@
+"%~dp0\setup.exe" /download "%~dp0\download.xml"

@@ -1,0 +1,11 @@
+<Configuration>
+   <Add OfficeClientEdition="32" >
+      <Product ID="O365ProPlusRetail">
+         <Language ID="en-us" /> 
+      </Product>
+   </Add>
+   <Display Level="None" AcceptEULA="TRUE" /> 
+   <Logging Name="OfficeSetup.txt" Path="C:\temp\log" /> 
+   <Property Name="AUTOACTIVATE" Value="1" /> 
+   <Updates Enabled="TRUE" /> 
+ </Configuration>

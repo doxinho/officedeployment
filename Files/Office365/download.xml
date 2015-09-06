@@ -1,0 +1,10 @@
+<!-- download.xml - This XML file downloads Office -->
+<Configuration>
+	<Add SourcePath="C:\Files" OfficeClientEdition="32" >
+		<Product ID="O365ProPlusRetail">
+			<Language ID="en-us" />
+		</Product>
+	</Add>
+	<Updates Enabled="TRUE" />
+	<Display Level="None" AcceptEULA="TRUE" />
+</Configuration>
