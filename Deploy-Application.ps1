@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 	This script performs the installation or uninstallation of an application(s).
 .DESCRIPTION
@@ -30,7 +30,7 @@
 	69000 - 69999: Recommended for user customized exit codes in Deploy-Application.ps1
 	70000 - 79999: Recommended for user customized exit codes in AppDeployToolkitExtensions.ps1
 .LINK 
-	http://psappdeploytoolkit.codeplex.com
+	http://psappdeploytoolkit.com
 #>
 [CmdletBinding()]
 Param (
@@ -56,15 +56,15 @@ Try {
 	##* VARIABLE DECLARATION
 	##*===============================================
 	## Variables: Application
-	[string]$appVendor = 'Microsoft'
-	[string]$appName = 'Office'
-	[string]$appVersion = '365'
+	[string]$appVendor = ''
+	[string]$appName = 'Microsoft Office 365'
+	[string]$appVersion = ''
 	[string]$appArch = ''
 	[string]$appLang = ''
 	[string]$appRevision = ''
-	[string]$appScriptVersion = '3.6.1'
-	[string]$appScriptDate = '05/07/2015'
-	[string]$appScriptAuthor = 'Gabriel Pinto'
+	[string]$appScriptVersion = '1.0.0'
+	[string]$appScriptDate = '09/05/2015'
+	[string]$appScriptAuthor = ''
 	##*===============================================
 	
 	##* Do not modify section below
@@ -75,23 +75,25 @@ Try {
 	
 	## Variables: Script
 	[string]$deployAppScriptFriendlyName = 'Deploy Application'
-	[version]$deployAppScriptVersion = [version]'3.6.1'
-	[string]$deployAppScriptDate = '03/26/2015'
+	[version]$deployAppScriptVersion = [version]'3.6.5'
+	[string]$deployAppScriptDate = '08/17/2015'
 	[hashtable]$deployAppScriptParameters = $psBoundParameters
 	
 	## Variables: Environment
-	[string]$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+	If (Test-Path -LiteralPath 'variable:HostInvocation') { $InvocationInfo = $HostInvocation } Else { $InvocationInfo = $MyInvocation }
+	[string]$scriptDirectory = Split-Path -Path $InvocationInfo.MyCommand.Definition -Parent
 	
 	## Dot source the required App Deploy Toolkit Functions
 	Try {
 		[string]$moduleAppDeployToolkitMain = "$scriptDirectory\AppDeployToolkit\AppDeployToolkitMain.ps1"
-		If (-not (Test-Path -Path $moduleAppDeployToolkitMain -PathType Leaf)) { Throw "Module does not exist at the specified location [$moduleAppDeployToolkitMain]." }
+		If (-not (Test-Path -LiteralPath $moduleAppDeployToolkitMain -PathType 'Leaf')) { Throw "Module does not exist at the specified location [$moduleAppDeployToolkitMain]." }
 		If ($DisableLogging) { . $moduleAppDeployToolkitMain -DisableLogging } Else { . $moduleAppDeployToolkitMain }
 	}
 	Catch {
-		[int32]$mainExitCode = 60008
+		If ($mainExitCode -eq 0){ [int32]$mainExitCode = 60008 }
 		Write-Error -Message "Module [$moduleAppDeployToolkitMain] failed to load: `n$($_.Exception.Message)`n `n$($_.InvocationInfo.PositionMessage)" -ErrorAction 'Continue'
-		Exit $mainExitCode
+		## Exit the script, returning the exit code to SCCM
+		If (Test-Path -LiteralPath 'variable:HostInvocation') { $script:ExitCode = $mainExitCode; Exit } Else { Exit $mainExitCode }
 	}
 	
 	#endregion
@@ -101,10 +103,11 @@ Try {
 	##*===============================================
 
 	# Office Variables
-	 [string] $dirOffice = Join-Path -Path "$envProgramFilesX86" -ChildPath "Microsoft Office"
-	 [string] $dirOffice32 = Join-Path -Path "$envProgramFiles" -ChildPath "Microsoft Office"
-	 [string] $dirOfficeC2R = Join-Path -Path "$envProgramFiles" -ChildPath "Microsoft Office 15"
-	 [string] $architecture = (Get-WmiObject win32_processor | Where-Object{$_.deviceID -eq "CPU0"}).AddressWidth
+	 [string[]] $dirOffice = Join-Path -Path "$envProgramFilesX86" -ChildPath "Microsoft Office"
+	 [string[]] $dirOffice32 = Join-Path -Path "$envProgramFiles" -ChildPath "Microsoft Office"
+	 [string[]] $dirOfficeC2R = Join-Path -Path "$envProgramFiles" -ChildPath "Microsoft Office 15"
+	 [string[]] $architecture = (Get-WmiObject win32_processor | Where-Object{$_.deviceID -eq "CPU0"}).AddressWidth
+	 [string[]] $officeExecutables = 'excel.exe', 'groove.exe', 'infopath.exe', 'onenote.exe', 'outlook.exe', 'mspub.exe', 'powerpnt.exe', 'winword.exe', 'winproj.exe', 'visio.exe'	
 
 	If ($deploymentType -ine 'Uninstall') {
 		##*===============================================
@@ -113,7 +116,7 @@ Try {
 		[string]$installPhase = 'Pre-Installation'
 		
 		# Show installation prompt
-		 Show-InstallationPrompt -Title "Bellwether Office Upgrade" -Message "Bellwether has scheduled an application upgrade for today. You will be upgrading from your current version of Microsoft Office to Microsoft Office 365. Please click below to begin the installation." -ButtonMiddleText "OK" -Icon Exclamation -PersistPrompt -MinimizeWindows $true
+		 Show-InstallationPrompt -Title "Office Upgrade" -Message "You will be removing your existing Office isntallation and upgrading to Microsoft Office 365. Please click below to begin the installation." -ButtonMiddleText "OK" -Icon Exclamation -PersistPrompt -MinimizeWindows $true
 
 		# Show Welcome Message, close apps, prompt to save, check disk space
 		 Show-InstallationWelcome -CloseApps "iexplore,PWConsole,excel,groove,onenote,infopath,onenote,outlook,mspub,powerpnt,winword,communicator,lync" -PromptToSave -ForceCloseAppsCountdown 120 -BlockExecution -CheckDiskSpace
@@ -122,7 +125,6 @@ Try {
 		 Show-InstallationProgress "Uninstalling previous versions of Microsoft Office. This may take some time. Please wait..."
 			
 		# Remove any previous version of Office (if required)
-		[string[]]$officeExecutables = 'excel.exe', 'groove.exe', 'infopath.exe', 'onenote.exe', 'outlook.exe', 'mspub.exe', 'powerpnt.exe', 'winword.exe', 'winproj.exe', 'visio.exe'
 
 		# Office 2003 (32-bit systems)
 		 ForEach ($officeExecutable in $officeExecutables) {
@@ -231,7 +233,7 @@ Try {
 
 		# Remove Microsoft Office Suite Activation Assistant
 		 Remove-MSIApplications "Microsoft Office Suite Activation Assistant"
-
+		
 		##*===============================================
 		##* INSTALLATION 
 		##*===============================================
@@ -280,7 +282,7 @@ Try {
 		##* PRE-UNINSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Pre-Uninstallation'
-		
+
 		##*===============================================
 		##* UNINSTALLATION
 		##*===============================================
