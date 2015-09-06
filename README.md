@@ -2,9 +2,17 @@
 
 Currently utilizing version 3.6.5 of the Powershell Application Deployment Toolkit.
 
-1. Edit Download.xml
 
-Edit the SourcePath to your directory.
+1. Edit Download.xml
+  1. Edit the SourcePath to your directory.
+  2. Edit the ProductID to match your subscription. Full list of ProductIDs available here.
+2. Edit Installation.xml
+  1. Edit the Product ID, language, logging (if desired), autoactivation, and updates. Full documentation available here.
+3. 
+  1. 
+
+1. Edit Download.xml
+2. Edit the SourcePath to your directory.
 Edit the ProductID to match your subscription. Full list of ProductIDs available here.
 
 2. Edit Installation.xml
