@@ -9,9 +9,6 @@ Currently utilizing version 3.6.5 of the Powershell Application Deployment Toolk
 
 2. Edit Installation.xml
   1. Edit the Product ID, language, logging (if desired), autoactivation, and updates. Full documentation available [here](https://technet.microsoft.com/en-us/library/JJ219426.aspx).
-  2. 
-  
-
 
 3. Run download.bat, downloads configured setup files
 
