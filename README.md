@@ -7,9 +7,11 @@ Currently utilizing version 3.6.5 of the Powershell Application Deployment Toolk
 Edit the SourcePath to your directory.
 Edit the ProductID to match your subscription. Full list of ProductIDs available here.
 
-
 2. Edit Installation.xml
-	a. Edit Product ID, language, logging (if desired), autoactivation, and updates. Full documentation available here.
+
+Edit Product ID, language, logging (if desired), autoactivation, and updates. Full documentation available here.
+
+
 3. Run download.bat, downloads configured setup fiels
 4. Adjust Deploy-Application.ps1 to your desired configuration. By default, it does the following:
 	a. Prompts the user that there is an application install.
