@@ -21,6 +21,6 @@ Currently utilizing version 3.6.5 of the [Powershell Application Deployment Tool
   6. Dialog prompt that the installation is complete.
   7. Prompts user to restart, forces within 60 seconds
 
-You can easily adjust this script to your desired needs. It is easy to run fully silently and to adjust the messages/prompts. The [PSADT documentation](https://github.com/PSAppDeployToolkit/PSAppDeployToolkit/releases) is excellent. 
+You can easily adjust this script to your desired needs, including running fully silent and installing Office instead of Office 365. The [PSADT documentation](https://github.com/PSAppDeployToolkit/PSAppDeployToolkit/releases) is excellent. 
 
-Credit goes to the sample scripts and #sysadmin on irc.synirc.net for assisting with the development of this script.
+Credit goes to the examples scripts and #sysadmin on irc.synirc.net for assisting with the development of this script.
